@@ -221,16 +221,15 @@ class MoonRocksModules extends lapis.Application
     @title = "All modules in #{label.name}"
 
     lmod = LabelsModules\select "where label_id = ?", label.id
-    query_ids = {0}
-    for lm in *lmod
-      table.insert(query_ids,lm.module_id)
 
-    query_ids = table.concat(query_ids,",")
+    if next lmod
+      query_ids = table.concat [lm.module_id for lm in *lmod], ","
+      modules = Modules\paginated "where id in (#{query_ids})"
 
-    paginated_modules @, (Modules\paginated "where id in (#{query_ids})"), {
-      per_page: 50
-      fields: "id, name, display_name, user_id, downloads, summary"
-    }
+      paginated_modules @, (modules), {
+        per_page: 50
+        fields: "id, name, display_name, user_id, downloads, summary"
+      }
 
     render: true
 
