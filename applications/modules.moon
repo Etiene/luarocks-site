@@ -253,7 +253,7 @@ class MoonRocksModules extends lapis.Application
       assert_csrf @
 
       LabelsModules\remove @label, @module
-      redirect_to: @url_for("module", @)
+      redirect_to: @url_for(@module)
   }
 
   [add_label: "/label/add/:user/:module"]: capture_errors_404 require_login respond_to {
