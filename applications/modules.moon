@@ -217,7 +217,6 @@ class MoonRocksModules extends lapis.Application
 
   [modules_label: "/label/modules/:label"]: capture_errors_404 =>
     label = assert_error Labels\find(name: @params.label), "Invalid label"
-    return unless label
 
     @title = "All modules in #{label.name}"
 
