@@ -14,33 +14,19 @@ import
   from require "models"
 
 
-_labels = {}
-for l in *labels
-	_labels[l.id] = l.name
-
-_modules = {}
-for m in *modules
-	_modules[m.id] = m.name
+_labels = {l.id,l.name for l in *labels}
+_modules = {m.id,m.name for m in *modules}
 
 class Toolbox
+  create_labels_from_dump: =>
+    for l in *labels
+      Labels\create name: l.name
 
-	create_labels_from_dump: =>
-		for l in *labels
-			Labels\create name: l.name
-
-	apply_labels_to_modules: =>
-		for m in *modules
-			mod = Modules\find name: m.name
-			if mod 
-				for l in *(m.labels)
-					label = Labels\find name: _labels[tonumber l]
-					if label 
-						LabelsModules\create module_id: mod.id, label_id: label.id
-
-
-
-
-
-
-
-
+  apply_labels_to_modules: =>
+    for m in *modules
+      mod = Modules\find name: m.name
+      if mod 
+        for l in *m.labels
+          label = Labels\find name: _labels[tonumber l]
+          if label 
+            LabelsModules\create module_id: mod.id, label_id: label.id

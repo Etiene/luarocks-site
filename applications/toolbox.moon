@@ -25,9 +25,7 @@ import
   modules
   from require "secrets.toolbox"
 
-_modules = {}
-for m in *modules
-  _modules[m.id] = m.name
+_modules = {m.id,m.name for m in *modules}
 
 class MoonRocksToolbox extends lapis.Application
   [transfer_endorses: "/toolbox/transfer"]: require_login respond_to {
@@ -49,10 +47,10 @@ class MoonRocksToolbox extends lapis.Application
             if not follow
               Followings\create {
                 source_user_id: @current_user.id
-                object_type: 1
+                object_type: Followings.object_type.module
                 object_id: m.id
               }
-              @transfer_count = @transfer_count+1
+              @transfer_count += 1
 
       render: "user_settings.import_toolbox"
   }
