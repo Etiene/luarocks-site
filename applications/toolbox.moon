@@ -27,7 +27,7 @@ import
 
 _modules = {}
 for m in *modules
-	_modules[m.id] = m.name
+  _modules[m.id] = m.name
 
 class MoonRocksToolbox extends lapis.Application
   [transfer_endorses: "/toolbox/transfer"]: require_login respond_to {
@@ -37,24 +37,22 @@ class MoonRocksToolbox extends lapis.Application
       endorsements = {}
       
       for u in *users
-      	if u.email == @current_user.email
-     	  	endorsements = u.endorsements
+        if u.email == @current_user.email
+          endorsements = u.endorsements
 
       for e in *endorsements
-      	name = _modules[tonumber e]
-      	if name 
-      		m = Modules\find name: name
-      		if m
-	      		follow = Followings\find source_user_id: @current_user.id, object_id: m.id
-	      		if not follow
-	      			Followings\create {
-		      			source_user_id: @current_user.id
-		      			object_type: 1
-		      			object_id: m.id
-		      		}
-	      			@transfer_count = @transfer_count+1
+          name = _modules[tonumber e]
+          if name 
+          m = Modules\find name: name
+          if m
+            follow = Followings\find source_user_id: @current_user.id, object_id: m.id
+            if not follow
+              Followings\create {
+                source_user_id: @current_user.id
+                object_type: 1
+                object_id: m.id
+              }
+              @transfer_count = @transfer_count+1
 
       render: "user_settings.import_toolbox"
   }
-
-
