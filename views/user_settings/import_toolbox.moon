@@ -23,8 +23,8 @@ class UserSettingsImportToolbox extends require "widgets.user_settings_page"
          p ->
           test "No endorsements were imported."
     else
-      form action: @req.cmd_url, method: "POST", class: "form", ->
-        input type: "hidden", name: "csrf_token", value: @csrf_token
+      form method: "POST", class: "form", ->
+        @csrf_input!
         div class: "button_row", ->
           input type: "submit", value: "Transfer endorsements"
 
