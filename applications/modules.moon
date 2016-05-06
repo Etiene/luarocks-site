@@ -25,7 +25,7 @@ import
   Rocks
   Dependencies
   Modules
-  Labels
+  ModuleLabels
   LabelsModules
   from require "models"
 
@@ -216,7 +216,7 @@ class MoonRocksModules extends lapis.Application
     redirect_to: @url_for @module
 
   [modules_label: "/label/modules/:label"]: capture_errors_404 =>
-    label = assert_error Labels\find(name: @params.label), "Invalid label"
+    label = assert_error ModuleLabels\find(name: @params.label), "Invalid label"
 
     @title = "All modules in #{label.name}"
 
@@ -237,7 +237,7 @@ class MoonRocksModules extends lapis.Application
     before: =>
       load_module @
       assert_editable @, @module
-      @label = Labels\find @params.label_id
+      @label = ModuleLabels\find @params.label_id
       return unless @label
 
       assert_error LabelsModules\find({
@@ -264,7 +264,7 @@ class MoonRocksModules extends lapis.Application
       @title = "Add Label to Module"
 
       already_in = { l.id, true for l in *@module\get_labels! }
-      @labels = for l in *Labels\select "order by name"
+      @labels = for l in *ModuleLabels\select "order by name"
         continue if already_in[l.id]
         l
 
@@ -278,7 +278,7 @@ class MoonRocksModules extends lapis.Application
         { "label_id", is_integer: true }
       }
 
-      label = assert_error Labels\find(id: @params.label_id), "Invalid label id"
+      label = assert_error ModuleLabels\find(id: @params.label_id), "Invalid label id"
 
       assert_error LabelsModules\create label_id: label.id, module_id: @module.id
       redirect_to: @url_for("module", @)

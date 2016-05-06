@@ -1,4 +1,4 @@
-class Modules extends require "widgets.page"
+class ModulesLabel extends require "widgets.page"
   inner_content: =>
     h2 ->
       text @title

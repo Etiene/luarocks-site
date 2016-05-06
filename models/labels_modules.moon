@@ -7,7 +7,7 @@ class LabelsModules extends Model
   @timestamp: true
 
   @relations: {
-    {"label", belongs_to: "Labels"}
+    {"label", belongs_to: "ModuleLabels"}
     {"module", belongs_to: "Modules"}
   }
 

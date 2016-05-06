@@ -21,7 +21,7 @@ class UserSettingsImportToolbox extends require "widgets.user_settings_page"
 
       else
          p ->
-          test "No endorsements were imported."
+          text "No endorsements were imported."
     else
       form method: "POST", class: "form", ->
         @csrf_input!
